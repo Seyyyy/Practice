@@ -1,0 +1,2 @@
+# Practice
+練習結果をgithubのcontributionに残すためのリポジトリ
