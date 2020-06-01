@@ -1,0 +1,17 @@
+version: '3.4'
+services: 
+    app:
+        build:
+            context: .
+            dockerfile: 'Dockerfile'
+            target: 'prod'
+        ports: 
+            - '9090:80'
+
+
+    serv:
+        build: 
+            context: .
+            dockerfile: 'Dockerfile.server'
+        ports: 
+            - '80:80'
