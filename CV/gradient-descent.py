@@ -27,6 +27,16 @@ def df(xx):
     x = xx
     return 2*x + 3
 
+## 収束しない場合
+# def f(xx):
+#     x = xx
+#     return -(x**2)
+
+
+# def df(xx):
+#     x = xx
+#     return -(2*x)
+
 def sample():
     grad = GradientDescent(f, df, alpha=0.01, eps=1e-6)
     initial = np.array([2])
