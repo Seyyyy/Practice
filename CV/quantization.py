@@ -29,9 +29,9 @@ class Quantization:
         k_r, k_c = (int(img.shape[0]/self.kernel_r), int(img.shape[1]/self.kernel_c))
         kernel = np.full((k_r, k_c), 1 / (k_r * k_c))
         out = []
-        for row in range(0, img.shape[0], k_r) :
+        for row in range(0, img.shape[0] - k_r, k_r) :
             q_row = []
-            for col in range(0, img.shape[1], k_c) :
+            for col in range(0, img.shape[1] - k_c, k_c) :
                 temp = np.sum(img[row : row + k_r, col : col + k_c] * kernel)
                 q_row.append(temp)
             out.append(q_row)
