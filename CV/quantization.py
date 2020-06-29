@@ -35,28 +35,15 @@ class Quantization:
             self.avarage.append(np.mean(self.quantizeImg[i]))
         self.avarage = np.array(self.avarage)
 
+
     def overallAveraging(self):
         for i in range(self.avarage.shape[0]):
             self.overallAvarage.append(self.avarage[i] / np.sum(self.avarage))
         self.overallAvarage = np.array(self.overallAvarage)
 
 
-    def quantize2D(self, imgSrc):
-        img = cv2.resize(imgSrc, (1500, 1500))
-        k_r, k_c = (int(img.shape[1]/self.kernel_r), int(img.shape[0]/self.kernel_c))
-        kernel = np.full((k_r, k_c), 1 / (k_r * k_c))
-        out = []
-        for row in range(0, img.shape[0], k_r) :
-            q_row = []
-            for col in range(0, img.shape[1], k_c) :
-                temp = np.sum(img[row : row + k_r, col : col + k_c] * kernel)
-                q_row.append(temp)
-            out.append(q_row)
-        return out
-
-
-# img = cv2.imread('sample/IMG_5719.JPG', cv2.IMREAD_GRAYSCALE) # 1785, 1200
-img = cv2.imread('sample/IMG_5905.JPG', cv2.IMREAD_GRAYSCALE) # 2048, 2048
+img = cv2.imread('sample/IMG_5719.JPG', cv2.IMREAD_GRAYSCALE) # 1785, 1200
+# img = cv2.imread('sample/IMG_5905.JPG', cv2.IMREAD_GRAYSCALE) # 2048, 2048
 dst = cv2.Canny(img, 100, 200)
 
 Q = Quantization(3, 3, dst)
