@@ -10,6 +10,7 @@ class Quantization:
     def __init__(self, kernel_r, kernel_c, imgSrc):
         self.kernel_r = kernel_r
         self.kernel_c = kernel_c
+        # 今のところは3分割を想定
         self.imgSrc = cv2.resize(imgSrc, (1785, 1200))
         self.quantizeImg = []
 
@@ -46,4 +47,4 @@ Q = Quantization(3, 3, dst)
 Q.quantize()
 print(Q.quantizeImg.shape)
 # plt.imshow(Q.quantizeImg[2])
-plt.show()
+# plt.show()
