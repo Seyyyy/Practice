@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import glob
+import csv
 
 
 class Quantization:
@@ -42,20 +44,29 @@ class Quantization:
         self.overallAvarage = np.array(self.overallAvarage)
 
 
-img = cv2.imread('sample/IMG_5719.JPG', cv2.IMREAD_GRAYSCALE) # 1785, 1200
-# img = cv2.imread('sample/IMG_5905.JPG', cv2.IMREAD_GRAYSCALE) # 2048, 2048
-dst = cv2.Canny(img, 100, 200)
+def mainFunc(path):
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    dst = cv2.Canny(img, 100, 200)
+    Q = Quantization(3, 3, dst)
+    Q.quantize()
+    Q.normalize()
+    Q.avaraging()
+    Q.overallAveraging()
+    return np.array(Q.overallAvarage)
 
-Q = Quantization(3, 3, dst)
-# out = Q.quantize2D(dst)
-Q.quantize()
-Q.normalize()
-Q.avaraging()
-Q.overallAveraging()
-print(Q.avarage)
-print(Q.overallAvarage)
-print(Q.quantizeImg.shape)
-print(Q.imgSrc.shape)
+
+images = glob.glob('sample/*')
+result = np.zeros((9,))
+for path in images:
+    result += mainFunc(path)
+
+csvに書き込み
+with open('csv/edge.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerow(result)
+
+# x = np.arange(0, 9, 1)
+
 # cv2.imwrite('out/out.jpg', Q.quantizeImg[2])
 # plt.imshow(Q.quantizeImg[2])
 # plt.show()
