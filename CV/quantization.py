@@ -14,10 +14,11 @@ class Quantization:
         self.imgSrc = cv2.resize(imgSrc, (1785, 1200))
         self.quantizeImg = []
         self.avarage = []
+        self.overallAvarage = []
 
 
     def quantize(self):
-        k_r, k_c = (int(self.imgSrc.shape[1]/self.kernel_r), int(self.imgSrc.shape[0]/self.kernel_c))
+        k_r, k_c = (int(self.imgSrc.shape[1]/self.kernel_r), int(self.imgSrc.shape[0]/self.kernel_c))# resize(x, y)の場合shapeは(y, x)になる
         for row in range(0, self.imgSrc.shape[0] - k_r, k_r):
             print(row)
             for col in range(0, self.imgSrc.shape[1] - k_c, k_c):
@@ -34,6 +35,11 @@ class Quantization:
         for i in range(self.quantizeImg.shape[0]):
             self.avarage.append(np.mean(self.quantizeImg[i]))
         self.avarage = np.array(self.avarage)
+
+    def overallAveraging(self):
+        for i in range(self.avarage.shape[0]):
+            self.overallAvarage.append(self.avarage[i] / np.sum(self.avarage))
+        self.overallAvarage = np.array(self.overallAvarage)
 
 
     def quantize2D(self, imgSrc):
@@ -59,7 +65,9 @@ Q = Quantization(3, 3, dst)
 Q.quantize()
 Q.normalize()
 Q.avaraging()
+Q.overallAveraging()
 print(Q.avarage)
+print(Q.overallAvarage)
 print(Q.quantizeImg.shape)
 print(Q.imgSrc.shape)
 # cv2.imwrite('out/out.jpg', Q.quantizeImg[2])
