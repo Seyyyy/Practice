@@ -24,6 +24,11 @@ class Quantization:
         self.quantizeImg = np.array(self.quantizeImg)
 
 
+    def normalize(self):
+        self.quantizeImg = self.quantizeImg / 255
+        self.quantizeImg = np.where(self.quantizeImg > 0, 1, 0)
+
+
     def quantize2D(self, imgSrc):
         img = cv2.resize(imgSrc, (1785, 1200))
         k_r, k_c = (int(img.shape[0]/self.kernel_r), int(img.shape[1]/self.kernel_c))
@@ -45,6 +50,8 @@ dst = cv2.Canny(img, 100, 200)
 Q = Quantization(3, 3, dst)
 # out = Q.quantize2D(dst)
 Q.quantize()
-print(Q.quantizeImg.shape)
+Q.normalize()
+print(Q.quantizeImg[0])
+# cv2.imwrite('out/out.jpg', Q.quantizeImg[2])
 # plt.imshow(Q.quantizeImg[2])
 # plt.show()
