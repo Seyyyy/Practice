@@ -13,6 +13,7 @@ class Quantization:
         # 今のところは3分割を想定
         self.imgSrc = cv2.resize(imgSrc, (1785, 1200))
         self.quantizeImg = []
+        self.avarage = []
 
 
     def quantize(self):
@@ -27,6 +28,12 @@ class Quantization:
     def normalize(self):
         self.quantizeImg = self.quantizeImg / 255
         self.quantizeImg = np.where(self.quantizeImg > 0, 1, 0)
+
+
+    def avaraging(self):
+        for i in range(self.quantizeImg.shape[0]):
+            self.avarage.append(np.mean(self.quantizeImg[i]))
+        self.avarage = np.array(self.avarage)
 
 
     def quantize2D(self, imgSrc):
@@ -51,7 +58,8 @@ Q = Quantization(3, 3, dst)
 # out = Q.quantize2D(dst)
 Q.quantize()
 Q.normalize()
-print(Q.quantizeImg[0])
+Q.avaraging()
+print(Q.avarage)
 # cv2.imwrite('out/out.jpg', Q.quantizeImg[2])
 # plt.imshow(Q.quantizeImg[2])
 # plt.show()
