@@ -17,7 +17,7 @@ class Quantization:
 
 
     def quantize(self):
-        k_r, k_c = (int(img.shape[0]/self.kernel_r), int(img.shape[1]/self.kernel_c))
+        k_r, k_c = (int(self.imgSrc.shape[1]/self.kernel_r), int(self.imgSrc.shape[0]/self.kernel_c))
         for row in range(0, self.imgSrc.shape[0] - k_r, k_r):
             print(row)
             for col in range(0, self.imgSrc.shape[1] - k_c, k_c):
@@ -50,8 +50,8 @@ class Quantization:
         return out
 
 
-img = cv2.imread('sample/IMG_5719.JPG', cv2.IMREAD_GRAYSCALE) # 1785, 1200
-# img = cv2.imread('sample/IMG_5905.JPG', cv2.IMREAD_GRAYSCALE) # 2048, 2048
+# img = cv2.imread('sample/IMG_5719.JPG', cv2.IMREAD_GRAYSCALE) # 1785, 1200
+img = cv2.imread('sample/IMG_5905.JPG', cv2.IMREAD_GRAYSCALE) # 2048, 2048
 dst = cv2.Canny(img, 100, 200)
 
 Q = Quantization(3, 3, dst)
@@ -60,6 +60,8 @@ Q.quantize()
 Q.normalize()
 Q.avaraging()
 print(Q.avarage)
+print(Q.quantizeImg.shape)
+print(Q.imgSrc.shape)
 # cv2.imwrite('out/out.jpg', Q.quantizeImg[2])
 # plt.imshow(Q.quantizeImg[2])
 # plt.show()
