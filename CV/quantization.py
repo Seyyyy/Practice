@@ -39,8 +39,11 @@ class Quantization:
 
 
     def overallAveraging(self):
-        for i in range(self.avarage.shape[0]):
-            self.overallAvarage.append(self.avarage[i] / np.sum(self.avarage))
+        # for i in range(self.avarage.shape[0]):
+        #     self.overallAvarage.append(self.avarage[i] / np.sum(self.avarage))
+        # self.overallAvarage = np.array(self.overallAvarage)
+        for i in range(self.quantizeImg.shape[0]):
+            self.overallAvarage.append(np.sum(self.quantizeImg[i]) / np.sum(self.quantizeImg))
         self.overallAvarage = np.array(self.overallAvarage)
 
 
@@ -60,7 +63,7 @@ result = np.zeros((9,))
 for path in images:
     result += mainFunc(path)
 
-csvに書き込み
+# csvに書き込み
 with open('csv/edge.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerow(result)
