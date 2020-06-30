@@ -74,6 +74,7 @@ def mainFunction(imageFileName):
     with open('csv/color.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow(csvArray)
+    return csvArray
 
 # 最初の一回だけheaderを記入
 with open('csv/color.csv', 'w') as f:
@@ -87,9 +88,11 @@ with open('csv/color.csv', 'w') as f:
     writer.writeheader()
 
 images = glob.glob('sample/*')
+result = []
 for path in images:
-    mainFunction(path)
-
-# mainFunction('../images/virtual.jpg')
-
-# print(cv2.cvtColor(np.array([[colorArray[indexMaxcount]]]), cv2.COLOR_HSV2RGB)[0][0])
+    result.append(mainFunction(path))
+result = np.array(result)
+result = np.mean(result, axis=0)
+with open('csv/color.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow(result)
