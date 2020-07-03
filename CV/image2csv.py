@@ -17,8 +17,18 @@ def imgNdarray2ColorNdarray(imgNdarray):
 def abstraction(imgNdarray):
     img_array = []
     abstParam = [15, 21.33, 21.33]
-    img_array = np.floor(imgNdarray / abstParam)
+    # abstParam = [15, 21, 21]
+    # abstParam = [15, 21, 18.2]
+    # imgNdarray = imgNdarray[
+    #     (imgNdarray[:, 1] > 5) & (imgNdarray[:, 1] < 256) & 
+    #     (imgNdarray[:, 2] > 40) & (imgNdarray[:, 2] < 255)]
+    # imgNdarray[:, 1] = imgNdarray[:, 1] - 5
+    # imgNdarray[:, 2] = imgNdarray[:, 2] - 40
+    imgNdarray = imgNdarray[np.where(imgNdarray[:, 1].astype(np.int) * imgNdarray[:, 2].astype(np.int) > 3000)]
+    
+    img_array = np.floor(imgNdarray.astype(np.int) / abstParam)
     img_array = img_array.astype(np.int64)
+    # print(img_array)
     return img_array
 
 # とっても重い処理(約３秒くらい)uniqueが重たいたぶん
@@ -92,7 +102,12 @@ result = []
 for path in images:
     result.append(mainFunction(path))
 result = np.array(result)
-result = np.mean(result, axis=0)
+resultm = np.mean(result, axis=0)
+resultv = np.var(result, axis=0)
 with open('csv/color.csv', 'a') as f:
         writer = csv.writer(f)
-        writer.writerow(result)
+        writer.writerow(resultm)
+        writer.writerow(resultv)
+
+# path = 'sample/IMG_5453.JPG'
+# mainFunction(path)
